@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Sobe o SagaLogs em http://localhost:15001 lendo os logs do compose citrix-saga.
+#   ./run.sh            build (se preciso) + sobe em foreground
+#   ./run.sh --bg       sobe em background (log em .sagalogs.log, pid em .sagalogs.pid)
+#   ./run.sh --stop     derruba o background
+# Env: SAGALOGS_PROJECTS=a,b (vazio = todos os projetos compose; dá para trocar na UI)
+#      REBUILD_UI=1     força rebuild da UI
+set -euo pipefail
+cd "$(dirname "$0")"
+if [[ "${1:-}" == "--stop" ]]; then
+  kill "$(cat .sagalogs.pid)" 2>/dev/null || true
+  rm -f .sagalogs.pid
+  exit 0
+fi
+(cd api && go build -o bin/sagalogs .)
+if [[ ! -f ui/dist/index.html || -n "${REBUILD_UI:-}" ]]; then
+  (cd ui && bun install && bunx vite build)
+fi
+export SAGALOGS_UI_DIR="$PWD/ui/dist"
+if [[ "${1:-}" == "--bg" ]]; then
+  nohup ./api/bin/sagalogs >.sagalogs.log 2>&1 &
+  echo $! >.sagalogs.pid
+  echo "SagaLogs em http://localhost:15001 (pid $(cat .sagalogs.pid))"
+else
+  exec ./api/bin/sagalogs
+fi

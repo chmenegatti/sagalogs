@@ -1,0 +1,9 @@
+# build
+api/bin/
+ui/dist/
+ui/node_modules/
+
+# runtime
+.sagalogs.log
+.sagalogs.pid
+*.log

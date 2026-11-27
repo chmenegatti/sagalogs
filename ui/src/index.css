@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* SagaLogs — papel de planta azul-acinzentado, tinta navy, rota cobalto.
+   Cor = status (ok / fila / falha). Fornecedor = ícone, nunca cor. */
+:root {
+  --paper: #eef1f5;
+  --sheet: #ffffff;
+  --ink: #13203a;
+  --ink-2: #4a5873;
+  --ink-3: #8592a8;
+  --rule: #d5dbe5;
+  --route: #2f5bea;
+  --route-soft: #dbe4fd;
+  --ok: #0f9d7a;
+  --ok-soft: #dcf3ec;
+  --wait: #d99a0b;
+  --wait-soft: #fbf0d4;
+  --fail: #d9342b;
+  --fail-soft: #fbe1df;
+  --wait-ink: #8a6100; /* texto sobre wait-soft */
+  --json-bool: #8a3ffc;
+  --stripe: rgb(19 32 58 / 0.025);
+  --grid: rgb(19 32 58 / 0.035);
+  /* métodos HTTP: identidade (categórica), não usa as cores de status.
+     validate_palette.js (dataviz): light PASS — CVD ΔE 10.0, normal 23.5, contraste ≥ 3:1 */
+  --m-post: #2449c9;
+  --m-put: #b55fd9;
+  --m-delete: #e66a2c;
+  /* causas das falhas: categórica, ordem fixa (dataviz reference slots 1-7 + cinza).
+     validate_palette.js light: PASS — CVD ΔE 9.1, normal 19.6; contraste < 3:1 em 3 cores → legenda com números */
+  --c-vendor: #2a78d6;
+  --c-credential: #eb6834;
+  --c-timeout: #1baf7a;
+  --c-ours: #eda100;
+  --c-infra: #e87ba4;
+  --c-concurrency: #008300;
+  --c-retries: #6250d6;
+  --c-other: #9aa5b8; /* cinza de propósito (sem classificação): croma baixo é o ponto */
+
+  --radius: 0.5rem;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--sheet);
+  --card-foreground: var(--ink);
+  --popover: var(--ink);
+  --popover-foreground: #f4f6fa;
+  --primary: var(--route);
+  --primary-foreground: #ffffff;
+  --secondary: #e3e8f0;
+  --secondary-foreground: var(--ink);
+  --muted: #e3e8f0;
+  --muted-foreground: var(--ink-2);
+  --accent: var(--route-soft);
+  --accent-foreground: var(--ink);
+  --destructive: var(--fail);
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--route);
+  color-scheme: light;
+}
+
+/* Tema escuro: mesmos papéis, passos próprios para a superfície escura (não é inversão).
+   Texto: ink 13.9:1, ink-2 8.0:1, ink-3 4.8:1 sobre sheet. */
+.dark {
+  --paper: #0e1524;
+  --sheet: #151e31;
+  --ink: #e6ebf3;
+  --ink-2: #a9b5c9;
+  --ink-3: #7d8ba3;
+  --rule: #2a3550;
+  --route: #7b9cf7;
+  --route-soft: #1d2b55;
+  --ok: #34c79f;
+  --ok-soft: #10302a;
+  --wait: #e8a82a;
+  --wait-soft: #33290f;
+  --wait-ink: #f0c060;
+  --fail: #f7766f;
+  --fail-soft: #3a1a1c;
+  --json-bool: #c49bff;
+  --stripe: rgb(230 235 243 / 0.025);
+  --grid: rgb(230 235 243 / 0.03);
+  /* validate_palette.js --mode dark --surface #151e31: PASS — CVD ΔE 8.5, normal 18.6 */
+  --m-post: #3a66d6;
+  --m-put: #b672d6;
+  --m-delete: #e0702f;
+  /* validate_palette.js --mode dark --surface #151e31: PASS — CVD ΔE 8.4, normal 19.3, contraste ≥ 3:1 */
+  --c-vendor: #3987e5;
+  --c-credential: #d95926;
+  --c-timeout: #199e70;
+  --c-ours: #c98500;
+  --c-infra: #d55181;
+  --c-concurrency: #0ca30c;
+  --c-retries: #9085e9;
+  --c-other: #5b6579; /* cinza de propósito (sem classificação): croma baixo é o ponto */
+
+  --popover-foreground: var(--sheet);
+  --primary-foreground: var(--sheet);
+  --secondary: #1d2740;
+  --muted: #1d2740;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-route: var(--route);
+  --color-route-soft: var(--route-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-wait: var(--wait);
+  --color-wait-soft: var(--wait-soft);
+  --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
+  --color-wait-ink: var(--wait-ink);
+  --color-c-vendor: var(--c-vendor);
+  --color-c-credential: var(--c-credential);
+  --color-c-timeout: var(--c-timeout);
+  --color-c-ours: var(--c-ours);
+  --color-c-infra: var(--c-infra);
+  --color-c-concurrency: var(--c-concurrency);
+  --color-c-retries: var(--c-retries);
+  --color-c-other: var(--c-other);
+  --color-json-bool: var(--json-bool);
+  --color-m-post: var(--m-post);
+  --color-m-put: var(--m-put);
+  --color-m-delete: var(--m-delete);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    font-feature-settings: "tnum" 1;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    /* grade de planta, bem leve */
+    background-image:
+      linear-gradient(to right, var(--grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  :focus-visible {
+    outline: 2px solid var(--route);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.hatch-wait {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--wait-soft) 0 4px,
+    transparent 4px 8px
+  );
+}
+
+/* Impressão dos relatórios: A4, sempre no tema claro, cores dos gráficos preservadas, cabeçalho do relatório
+   (thead.report-head) repetido em cada folha. */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 10mm;
+  }
+  .dark {
+    --paper: #ffffff;
+    --sheet: #ffffff;
+    --ink: #13203a;
+    --ink-2: #4a5873;
+    --ink-3: #6f7c93;
+    --rule: #d5dbe5;
+    --route: #2f5bea;
+    --route-soft: #dbe4fd;
+    --ok: #0f9d7a;
+    --ok-soft: #dcf3ec;
+    --wait: #d99a0b;
+    --wait-soft: #fbf0d4;
+    --wait-ink: #8a6100;
+    --fail: #d9342b;
+    --fail-soft: #fbe1df;
+    color-scheme: light;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  thead.report-head {
+    display: table-header-group;
+  }
+  .report-section,
+  tr {
+    break-inside: avoid;
+  }
+}
